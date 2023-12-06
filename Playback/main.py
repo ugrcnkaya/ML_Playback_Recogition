@@ -31,8 +31,7 @@ def compare_images(image_path1, image_path2):
     # convert to PIL 
     diff_image = Image.fromarray(threshold)
     diff_image.save('diff.png')
-    diff_image.show()
-
+    
 
 
 compare_images('image1.png', 'image0.png')
