@@ -13,9 +13,9 @@ def compare_images(image_path1, image_path2):
 
     gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
 
-   """
-   Any pixel with a value above 30 is set to 255 (white), and any pixel with a value below 30 is set to 0 (black).
-   """
+   
+    #Any pixel with a value above 30 is set to 255 (white), and any pixel with a value below 30 is set to 0 (black).
+
     _, threshold = cv2.threshold(gray, 30, 255, cv2.THRESH_BINARY)
 
     #image to a 1D array
@@ -35,4 +35,4 @@ def compare_images(image_path1, image_path2):
 
 
 
-compare_images('image1.png', 'image2.png')
+compare_images('image1.png', 'image0.png')
