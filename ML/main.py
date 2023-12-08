@@ -58,31 +58,48 @@ class ImageProcessor:
     def convert_to_gray(self, image):
         return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     
-    def template_matching(self, player_image, template_image, threshold=0.6):
+    def template_matching(self, player_image, template_image, threshold=0.5):
         player_gray = self.convert_to_gray(player_image)
         template_gray = self.convert_to_gray(template_image)
 
         result = cv2.matchTemplate(player_gray, template_gray, cv2.TM_CCOEFF_NORMED)
         loc = np.where(result >= threshold)
 
-        # Reset matched coordinates
+        # Reset matched coordinates and keep track of the closest match
         self.matched_coordinates = []
+        closest_match = None
+        min_distance = float('inf')
 
         for pt in zip(*loc[::-1]):
             x, y = pt[0], pt[1]
-            self.matched_coordinates.append({'x': x, 'y': y})
-
-            # Draw rectangle
-            cv2.rectangle(player_image, pt, (x + template_image.shape[1], y + template_image.shape[0]), (0, 255, 0), 2)
 
             # Calculate center of the rectangle
             center_x = x + (template_image.shape[1] // 2)
             center_y = y + (template_image.shape[0] // 2)
 
+            # Calculate distance from the center to some reference point (e.g., the center of the image)
+            reference_point = (player_image.shape[1] // 2, player_image.shape[0] // 2)
+            distance = np.sqrt((center_x - reference_point[0]) ** 2 + (center_y - reference_point[1]) ** 2)
+
+            if distance < min_distance:
+                closest_match = {'x': x, 'y': y}
+                min_distance = distance
+
+        if closest_match is not None:
+            x, y = closest_match['x'], closest_match['y']
+
+            # Draw rectangle
+            cv2.rectangle(player_image, (x, y), (x + template_image.shape[1], y + template_image.shape[0]), (0, 255, 0), 2)
+
             # Draw red dot at the center
+            center_x = x + (template_image.shape[1] // 2)
+            center_y = y + (template_image.shape[0] // 2)
             cv2.circle(player_image, (center_x, center_y), 5, (0, 0, 255), -1)
 
-        return player_image, self.matched_coordinates[:1]  # Return only the first match
+            # Add the closest match to the list
+            self.matched_coordinates.append({'x': x, 'y': y})
+
+        return player_image, self.matched_coordinates[:1]  # Return only the closest match
 
     def display_image(self, image, window_name='Image'):
         cv2.imshow(window_name, image)
