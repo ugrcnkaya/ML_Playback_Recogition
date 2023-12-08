@@ -58,7 +58,7 @@ class ImageProcessor:
     def convert_to_gray(self, image):
         return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     
-    def template_matching(self, player_image, template_image, threshold=0.8):
+    def template_matching(self, player_image, template_image, threshold=0.6):
         player_gray = self.convert_to_gray(player_image)
         template_gray = self.convert_to_gray(template_image)
 
@@ -129,5 +129,5 @@ for image_path in image_paths:
         
         # Process the image
         coordinates = image_processor.process_image()
-        
+
 #clean_image('player.png')
