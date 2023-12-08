@@ -58,7 +58,7 @@ class ImageProcessor:
     def convert_to_gray(self, image):
         return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     
-    def template_matching(self, player_image, template_image, threshold=0.5):
+    def template_matching(self, player_image, template_image, threshold=0.6):
         player_gray = self.convert_to_gray(player_image)
         template_gray = self.convert_to_gray(template_image)
 
@@ -135,7 +135,7 @@ class ImageProcessor:
 
 
 image_paths = ['player.png', 'player2.png', 'player3.png', 'player4.png']
-template_paths = ['next_video_icon.png', 'fullscreen.png', 'play_icon.png', 'settings_icon.png']
+template_paths = ['next_video_icon.png', 'fullscreen.png', 'play_icon.png', 'settings_icon.png', 'pause_icon.png']
 
 for image_path in image_paths:
     for template_path in template_paths:
