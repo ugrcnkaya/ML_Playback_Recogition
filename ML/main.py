@@ -114,6 +114,12 @@ class ImageProcessor:
 
 
 # Example usage
-image_processor = ImageProcessor('player.png', 'next_video_icon.png')
+image_processor = ImageProcessor('player.png', 'settings_icon.png')
+coordinates = image_processor.process_image()
+
+image_processor = ImageProcessor('player.png', 'fullscreen.png')
+coordinates = image_processor.process_image()
+
+image_processor = ImageProcessor('player.png', 'play_icon.png')
 coordinates = image_processor.process_image()
 #clean_image('player.png')
