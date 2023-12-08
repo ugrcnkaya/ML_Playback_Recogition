@@ -67,10 +67,18 @@ class ImageProcessor:
         for pt in zip(*loc[::-1]):
             x, y = pt[0], pt[1]
             self.matched_coordinates.append({'x': x, 'y': y})
+
+            # Draw rectangle
             cv2.rectangle(player_image, pt, (x + template_image.shape[1], y + template_image.shape[0]), (0, 255, 0), 2)
 
-        return player_image, self.matched_coordinates[:1]  # Return only the first match
+            # Calculate center of the rectangle
+            center_x = x + (template_image.shape[1] // 2)
+            center_y = y + (template_image.shape[0] // 2)
 
+            # Draw red dot at the center
+            cv2.circle(player_image, (center_x, center_y), 5, (0, 0, 255), -1)
+
+        return player_image, self.matched_coordinates[:1]  # Return only the first match
 
     def display_image(self, image, window_name='Image'):
         cv2.imshow(window_name, image)
@@ -97,7 +105,7 @@ class ImageProcessor:
         # Apply template matching
         result_with_template, matched_coordinates = self.template_matching(result_image.copy(), template_image)
 
-        # Display the result with rectangles around the matched regions
+        # Display the result with rectangles and red dots
         self.display_image(result_with_template, window_name='Result with Template Matching')
 
         # Print and return matched coordinates
