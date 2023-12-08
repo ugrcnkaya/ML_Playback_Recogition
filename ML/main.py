@@ -2,6 +2,10 @@ import cv2
 import numpy as np
 
 
+class Constants:
+    lower_white = np.array([0, 0, 200])
+    upper_white = np.array([255, 40, 255])  # Increased the saturation upper limit
+
 
 def clean_image(image_path):
     # Load the image
@@ -11,8 +15,8 @@ def clean_image(image_path):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     # Define a range for white color
-    lower_white = np.array([0, 0, 200])
-    upper_white = np.array([255, 40, 255])  # Increased the saturation upper limit
+    lower_white = Constants.lower_white
+    upper_white = Constants.upper_white
 
     # Create a mask for the white color
     mask = cv2.inRange(hsv, lower_white, upper_white)
@@ -90,8 +94,8 @@ class ImageProcessor:
         original_image = self.load_image(self.image_path)
 
         # Define a range for white color
-        lower_white = np.array([0, 0, 200])
-        upper_white = np.array([255, 40, 255])
+        lower_white = Constants.lower_white
+        upper_white = Constants.upper_white
 
         # Create a mask for the white color
         mask = self.create_mask(original_image, lower_white, upper_white)
@@ -113,13 +117,17 @@ class ImageProcessor:
         return matched_coordinates
 
 
-# Example usage
-image_processor = ImageProcessor('player.png', 'settings_icon.png')
-coordinates = image_processor.process_image()
+image_paths = ['player.png', 'player2.png', 'player3.png', 'player4.png']
+template_paths = ['next_video_icon.png', 'fullscreen.png', 'play_icon.png', 'settings_icon.png']
 
-image_processor = ImageProcessor('player.png', 'fullscreen.png')
-coordinates = image_processor.process_image()
-
-image_processor = ImageProcessor('player.png', 'play_icon.png')
-coordinates = image_processor.process_image()
+for image_path in image_paths:
+    for template_path in template_paths:
+        print(f"Processing image: {image_path} with template: {template_path}")
+        
+        # Create an instance of ImageProcessor for each image and template pair
+        image_processor = ImageProcessor(image_path, template_path)
+        
+        # Process the image
+        coordinates = image_processor.process_image()
+        
 #clean_image('player.png')
