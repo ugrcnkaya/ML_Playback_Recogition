@@ -28,8 +28,10 @@ def match_template(template_img_path, icon_img_path, threshold=0.8):
 
 template_path = "player4.png"
 icon_path = "previous_video.png"
-x, y, result_img = match_template(template_path, icon_path)
+x, y, result_img, center_x, center_y = match_template(template_path, icon_path)
 print("Max Matching Location (x, y):", x, y)
+print("Center Location (x, y):", center_x, center_y)
+cv2.imwrite("result.png", result_img)
 
 
 
