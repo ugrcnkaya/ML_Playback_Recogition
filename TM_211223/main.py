@@ -14,12 +14,17 @@ def match_template(template_img_path, icon_img_path, threshold=0.8):
 
     max_loc = (max_loc[0] + w, max_loc[1] + h)
     cv2.rectangle(template_img, max_loc, (max_loc[0] - w, max_loc[1] - h), (0, 255, 0), 2)
+    center_x = (max_loc[0] + max_loc[0] - w) // 2
+    center_y = (max_loc[1] + max_loc[1] - h) // 2
+    cv2.circle(template_img, (center_x, center_y), 5, (0, 0, 255), -1)
 
     cv2.imshow("Template", template_img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-    return max_loc[0], max_loc[1], template_img
+
+    
+    return max_loc[0], max_loc[1], template_img, center_x, center_y
 
 template_path = "player4.png"
 icon_path = "previous_video.png"
